@@ -48,3 +48,15 @@ python modos_normales.py
 Incertidumbres: δT = 0,01 s, δd = 1 mm.
 
 ![Modos normales](modos_normales.png)
+
+## Frecuencias vs. altura del resorte
+
+`frecuencias.py` grafica las frecuencias angulares `ω = 2π/T` de la Tabla III contra
+la altura `y` del resorte: (a) los modos normales `ω_s` y `ω_a`; (b) la pulsación
+medida `ω_p` superpuesta con `ω_a − ω_s` calculada con los periodos medidos.
+
+```bash
+python frecuencias.py
+```
+
+![Frecuencias](frecuencias.png)
