@@ -88,21 +88,6 @@ ax.set_title("Modos normales: separación de frecuencias vs. distancia del resor
 ax.grid(alpha=0.3)
 ax.legend(loc="upper left", frameon=False, fontsize=9)
 
-ax.text(
-    0.97,
-    0.05,
-    (
-        rf"$b = ({b:.0f} \pm {db:.0f})$ s$^{{-2}}$m$^{{-2}}$" + "\n"
-        rf"$c = ({c:.1f} \pm {dc:.1f})$ s$^{{-2}}$" + "\n"
-        rf"$R = {r:.4f}$"
-    ),
-    transform=ax.transAxes,
-    ha="right",
-    va="bottom",
-    fontsize=10,
-    bbox=dict(boxstyle="round", fc="white", ec="0.7"),
-)
-
 ax.annotate(
     "Punto 1: $T_a > T_s$\n(acoplamiento débil)",
     xy=(x[0], y[0]),
