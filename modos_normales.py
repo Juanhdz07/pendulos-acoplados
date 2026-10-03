@@ -1,9 +1,7 @@
 """Modos normales de los péndulos acoplados (Tabla III), con barras de error y residuos.
 
-Para dos péndulos físicos idénticos acoplados por un resorte a distancia d del eje:
-    omega_s^2 = M g l / I
-    omega_a^2 = omega_s^2 + 2 k d^2 / I
-Por lo tanto omega_a^2 - omega_s^2 es lineal en d^2 con pendiente 2k/I.
+Para dos péndulos físicos idénticos acoplados por un resorte a distancia d del eje,
+omega_a^2 = omega_s^2 + 2 k d^2 / I, así que omega_a^2 - omega_s^2 es lineal en d^2.
 """
 
 import matplotlib.pyplot as plt
@@ -17,11 +15,6 @@ Ta = np.array([1.30, 1.19, 1.13, 1.07])  # s
 # Incertidumbres instrumentales
 dd = np.full_like(d, 0.001)  # m (regla)
 dT = np.full_like(Ts, 0.01)  # s (resolución de los periodos)
-
-# Valores calculados antes (k de la Tabla II, I de la Ec. 7.2)
-K, DK = 23.7, 0.6  # N/m
-I, DI = 2.782e-2, 0.014e-2  # kg m^2
-
 ws2 = (2 * np.pi / Ts) ** 2
 wa2 = (2 * np.pi / Ta) ** 2
 y = wa2 - ws2  # s^-2
@@ -42,17 +35,12 @@ db = s / np.sqrt(sxx)
 dc = s * np.sqrt(np.sum(x**2) / (n * sxx))
 r = np.corrcoef(x, y)[0, 1]
 
-b_teo = 2 * K / I
-db_teo = b_teo * np.sqrt((DK / K) ** 2 + (DI / I) ** 2)
-
 # Incertidumbre efectiva en y: incluye la de x proyectada con la pendiente
 dy_eff = np.sqrt(dy**2 + (b * dx) ** 2)
 
 print(f"b = ({b:.0f} ± {db:.0f}) s^-2 m^-2")
 print(f"c = ({c:.1f} ± {dc:.1f}) s^-2")
 print(f"R = {r:.4f}")
-print(f"2k/I teórico = ({b_teo:.0f} ± {db_teo:.0f}) s^-2 m^-2")
-print(f"k a partir de b: ({b * I / 2:.1f} ± {db * I / 2:.1f}) N/m")
 
 fig, (ax, axr) = plt.subplots(
     2,
@@ -69,15 +57,6 @@ ax.plot(
     color="C1",
     lw=1.8,
     label=r"Ajuste lineal: $\omega_a^2-\omega_s^2 = b\,d^2 + c$",
-    zorder=1,
-)
-ax.plot(
-    x_line,
-    b_teo * x_line,
-    color="0.45",
-    lw=1.4,
-    ls="--",
-    label=r"Teoría: pendiente $2k/I$ ($k$ e $I$ medidos)",
     zorder=1,
 )
 ax.errorbar(
@@ -103,7 +82,7 @@ for i in range(n):
         color="C0",
     )
 
-ax.set_ylim(-5, 21)
+ax.set_ylim(-4, 14)
 ax.set_ylabel(r"$\omega_a^2-\omega_s^2$ (s$^{-2}$)")
 ax.set_title("Modos normales: separación de frecuencias vs. distancia del resorte")
 ax.grid(alpha=0.3)
@@ -115,8 +94,7 @@ ax.text(
     (
         rf"$b = ({b:.0f} \pm {db:.0f})$ s$^{{-2}}$m$^{{-2}}$" + "\n"
         rf"$c = ({c:.1f} \pm {dc:.1f})$ s$^{{-2}}$" + "\n"
-        rf"$R = {r:.4f}$" + "\n"
-        rf"$2k/I = ({b_teo:.0f} \pm {db_teo:.0f})$ s$^{{-2}}$m$^{{-2}}$"
+        rf"$R = {r:.4f}$"
     ),
     transform=ax.transAxes,
     ha="right",
@@ -128,14 +106,14 @@ ax.text(
 ax.annotate(
     "Punto 1: $T_a > T_s$\n(acoplamiento débil)",
     xy=(x[0], y[0]),
-    xytext=(0.0016, -3.9),
+    xytext=(0.0016, -3.3),
     fontsize=9,
     arrowprops=dict(arrowstyle="->", color="0.3"),
 )
 ax.annotate(
     "Recta de ajuste",
     xy=(0.0075, b * 0.0075 + c),
-    xytext=(0.0042, 10.5),
+    xytext=(0.0045, 8.5),
     fontsize=9,
     arrowprops=dict(arrowstyle="->", color="0.3"),
 )
