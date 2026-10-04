@@ -120,7 +120,11 @@ ax.annotate(
 )
 
 ax.set_ylabel(r"Ángulo $\theta$ (°)")
-ax.set_title(r"Pulsación: ángulo de un péndulo vs. tiempo ($y = 0{,}288$ m)")
+ax.set_title(
+    "Pulsación: ángulo de un péndulo vs. tiempo\n"
+    r"Pulso de la columna T(puls) de la tabla: $T_{\mathrm{puls}} = 16{,}1$ s ($y = 0{,}288$ m)",
+    fontsize=11,
+)
 ax.set_ylim(38, 82)
 ax.grid(alpha=0.3)
 ax.legend(loc="lower left", frameon=False, fontsize=8.5)
