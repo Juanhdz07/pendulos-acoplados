@@ -49,6 +49,18 @@ Incertidumbres: δT = 0,01 s, δd = 1 mm.
 
 ![Modos normales](modos_normales.png)
 
+## Figura 5: diferencia de los cuadrados vs. d²
+
+`figura5_diferencia_cuadrados.py` grafica `ω_a² − ω_s²` contra `d²`. Según la Ec. (10)
+la relación es lineal con pendiente `β = 2k/I`, y la pendiente ajustada da
+`k_din = I β / 2 = (13,5 ± 2,7) N/m`, con `β = (970 ± 192) s⁻²·m⁻²`.
+
+```bash
+python figura5_diferencia_cuadrados.py
+```
+
+![Figura 5](figura5_diferencia_cuadrados.png)
+
 ## Frecuencias vs. altura del resorte
 
 `frecuencias.py` grafica las frecuencias angulares `ω = 2π/T` de la Tabla III contra
