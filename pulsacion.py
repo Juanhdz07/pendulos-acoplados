@@ -1,8 +1,7 @@
 """Ángulo vs. tiempo de un péndulo con pulsación (resorte en y = 0,288 m).
 
-Los datos se digitalizan de la captura de Logger Pro (logger_pro_pulsacion.png):
-para cada columna de píxeles de la curva se toma el centro del trazo como el ángulo
-y la mitad de su grosor como incertidumbre de lectura.
+Los datos se digitalizan de la captura de Logger Pro (logger_pro_pulsacion.png),
+ver digitalizacion.py.
 
 Se ajusta el modelo de pulsación
     theta(t) = theta0 + A cos(Omega t + phi1) cos(omega t + phi2),
@@ -11,41 +10,11 @@ con omega = (omega_a + omega_s)/2 y Omega = (omega_a - omega_s)/2.
 
 import matplotlib.pyplot as plt
 import numpy as np
-from PIL import Image
 from scipy.optimize import curve_fit
 
-# Calibración de ejes en la captura (píxel -> valor)
-T_PX = np.array([149, 470, 791])
-T_VAL = np.array([0.0, 10.0, 20.0])
-Y_PX = np.array([404, 466, 526, 587])
-Y_VAL = np.array([80.0, 60.0, 40.0, 20.0])
-t_slope, t_off = np.polyfit(T_PX, T_VAL, 1)
-y_slope, y_off = np.polyfit(Y_PX, Y_VAL, 1)
+from digitalizacion import digitalizar
 
-# Región de la curva dentro del área de la gráfica
-ROW_MIN, ROW_MAX = 406, 622
-COL_MIN, COL_MAX = 152, 560
-DARK = 110  # nivel de gris máximo del trazo (fondo y cuadrícula son más claros)
-STEP = 3  # tomar una columna de cada STEP
-
-img = np.asarray(Image.open("logger_pro_pulsacion.png").convert("L"), dtype=float)
-
-t_list, th_list, dth_list = [], [], []
-for col in range(COL_MIN, COL_MAX, STEP):
-    if np.min(np.abs(T_PX - col)) <= 2:  # líneas verticales de la cuadrícula
-        continue
-    rows = np.nonzero(img[ROW_MIN:ROW_MAX, col] < DARK)[0] + ROW_MIN
-    if rows.size == 0:
-        continue
-    center = 0.5 * (rows.min() + rows.max())
-    half = max(0.5 * (rows.max() - rows.min()), 0.5)
-    t_list.append(t_slope * col + t_off)
-    th_list.append(y_slope * center + y_off)
-    dth_list.append(abs(y_slope) * half)
-
-t = np.array(t_list)
-th = np.array(th_list)
-dth = np.array(dth_list)
+t, th, dth = digitalizar(step=3)
 
 
 def modelo(t, theta0, A, Omega, phi1, omega, phi2):

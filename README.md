@@ -64,7 +64,8 @@ python frecuencias.py
 ## Pulsación: ángulo vs. tiempo
 
 `pulsacion.py` digitaliza la curva de la captura de Logger Pro
-(`logger_pro_pulsacion.png`, resorte en y = 0,288 m) y ajusta el modelo de pulsación
+(`logger_pro_pulsacion.png`, resorte en y = 0,288 m; ver `digitalizacion.py`) y ajusta
+el modelo de pulsación
 `θ(t) = θ0 + A cos(Ωt + φ1) cos(ωt + φ2)`. La incertidumbre de cada punto es la mitad
 del grosor del trazo en la imagen.
 
@@ -81,3 +82,21 @@ python pulsacion.py
 | Periodo de la envolvente π/Ω | (8,74 ± 0,04) s |
 
 ![Pulsación](pulsacion.png)
+
+## Transformada de Fourier de la pulsación
+
+`fourier.py` interpola la señal digitalizada a un paso uniforme, le resta la media y
+calcula el espectro de amplitud con la FFT. Aparecen dos picos, uno por cada modo normal.
+
+```bash
+python fourier.py
+```
+
+| Pico | ω (rad/s) | f (Hz) |
+|---|---|---|
+| ω_s | 5,04 | 0,801 |
+| ω_a | 5,75 | 0,915 |
+
+Resolución: Δω = 2π/T = 0,52 rad/s (señal de 12,1 s).
+
+![Fourier](fourier.png)
