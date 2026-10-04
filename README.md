@@ -60,3 +60,24 @@ python frecuencias.py
 ```
 
 ![Frecuencias](frecuencias.png)
+
+## Pulsación: ángulo vs. tiempo
+
+`pulsacion.py` digitaliza la curva de la captura de Logger Pro
+(`logger_pro_pulsacion.png`, resorte en y = 0,288 m) y ajusta el modelo de pulsación
+`θ(t) = θ0 + A cos(Ωt + φ1) cos(ωt + φ2)`. La incertidumbre de cada punto es la mitad
+del grosor del trazo en la imagen.
+
+```bash
+python pulsacion.py
+```
+
+| Parámetro | Valor |
+|---|---|
+| ω (portadora) | (5,393 ± 0,006) rad/s |
+| Ω (envolvente) | (0,3594 ± 0,0016) rad/s |
+| ω_s = ω − Ω | (5,034 ± 0,006) rad/s |
+| ω_a = ω + Ω | (5,753 ± 0,006) rad/s |
+| Periodo de la envolvente π/Ω | (8,74 ± 0,04) s |
+
+![Pulsación](pulsacion.png)
